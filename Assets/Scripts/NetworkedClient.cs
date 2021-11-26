@@ -18,6 +18,7 @@ public class NetworkedClient : MonoBehaviour
     int ourClientID;
 
     GameObject gameSystemManager;
+  //  GameObject gameboard
 
     // Start is called before the first frame update
     void Start()
@@ -132,6 +133,7 @@ public class NetworkedClient : MonoBehaviour
         else if (signifier == ServerToClientSignifiers.GameStart)
         {
             gameSystemManager.GetComponent<SystemManager>().ChangeState(GameStates.Game);
+            Debug.Log("Game Started");
         }
         else if (signifier == ServerToClientSignifiers.OpponentPlayed)
         {

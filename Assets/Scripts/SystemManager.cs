@@ -26,8 +26,11 @@ public class SystemManager : MonoBehaviour
 
     GameObject playGameButton;
 
-    //Member Variables 
+    //Networked Client
     GameObject networkedClient;
+
+    //Gameboard
+    GameObject gameboard;
 
 
     // Start is called before the first frame update
@@ -74,6 +77,9 @@ public class SystemManager : MonoBehaviour
             //Get NetworkedClient 
             else if (go.name == "NetworkedClient")
                 networkedClient = go;
+
+            else if (go.name == "Gameboard")
+                gameboard = go;
 
         }
 
