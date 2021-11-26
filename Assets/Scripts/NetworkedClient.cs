@@ -117,7 +117,6 @@ public class NetworkedClient : MonoBehaviour
         Debug.Log("msg recieved = " + msg + ".  connection id = " + id);
 
         
-
         string[] csv = msg.Split(',');
 
         int signifier = int.Parse(csv[0]);

@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class SystemManager : MonoBehaviour
 {
-    // UI Variables 
+    //Login Panel Variables 
+    GameObject loginPanel;
+
     GameObject submitButton;
     GameObject usernameText;
     GameObject passwordText;
@@ -14,7 +16,14 @@ public class SystemManager : MonoBehaviour
     GameObject loginToggle;
     GameObject createToggle;
 
-    GameObject gameRoomButton;
+   //Join Game Room Panel
+    GameObject joinGameRoomPanel;
+    GameObject currentUserNumber;
+    GameObject joinGameRoomButton;
+
+    //WaitingPanel
+    GameObject waitingPanel;
+
     GameObject playGameButton;
 
     //Member Variables 
@@ -28,7 +37,10 @@ public class SystemManager : MonoBehaviour
 
         foreach (GameObject go in allObjects)
         {
-            if (go.name == "UserField")
+            //Get all LoginPanel Elements
+            if (go.name == "LoginPanel")
+                loginPanel = go;
+            else if (go.name == "UserField")
                 usernameInput = go;
             else if (go.name == "PasswordField")
                 passwordInput = go;
@@ -36,22 +48,37 @@ public class SystemManager : MonoBehaviour
                 usernameText = go;
             else if (go.name == "PassText")
                 passwordText = go;
-            else if (go.name == "SubmitButton")
-                submitButton = go;
             else if (go.name == "LoginToggle")
                 loginToggle = go;
             else if (go.name == "CreateToggle")
                 createToggle = go;
-            else if (go.name == "NetworkedClient")
-                networkedClient = go;
-            else if (go.name == "GameRoomButton")
-                gameRoomButton = go;
+            else if (go.name == "SubmitButton")
+                submitButton = go;
+
+            //Get all joinGameRoomPanel Elements
+            else if (go.name == "JoinGameRoomPanel")
+                joinGameRoomPanel = go;
+            else if (go.name == "CurrentUserNumber")
+                currentUserNumber = go;
+            else if (go.name == "JoinGameRoomButton")
+                joinGameRoomButton = go;
+
+            //Get PlayGamePanel Elements
             else if (go.name == "PlayGameButton")
                 playGameButton = go;
+
+            //Get WaitingPanel Elements
+            else if (go.name == "WaitingPanel")
+                waitingPanel = go;
+
+            //Get NetworkedClient 
+            else if (go.name == "NetworkedClient")
+                networkedClient = go;
+
         }
 
         submitButton.GetComponent<Button>().onClick.AddListener(SubmitButtonPressed);
-       // gameRoomButton.GetComponent<Button>().onClick.AddListener(JoinGameRoomButtonPressed);
+        joinGameRoomButton.GetComponent<Button>().onClick.AddListener(JoinGameRoomButtonPressed);
        // playGameButton.GetComponent<Button>().onClick.AddListener(PlayGameButtonPressed);
 
         loginToggle.GetComponent<Toggle>().onValueChanged.AddListener(LoginTogglePressed);
@@ -114,14 +141,10 @@ public class SystemManager : MonoBehaviour
 
     public void ChangeState(int newState)
     {
-        submitButton.SetActive(false);
-        usernameInput.SetActive(false);
-       
-        usernameText.SetActive(false);
-        passwordText.SetActive(false);
-        loginToggle.SetActive(false);
-        createToggle.SetActive(false);
-        passwordInput.SetActive(false);
+        loginPanel.SetActive(false);
+        joinGameRoomPanel.SetActive(false);
+        waitingPanel.SetActive(false);
+
         //  gameRoomButton.SetActive(false);
 
         //playGameButton.SetActive(false);
@@ -129,18 +152,17 @@ public class SystemManager : MonoBehaviour
 
         if (newState == GameStates.LoginMenu)
         {
-            submitButton.SetActive(true);
-            usernameInput.SetActive(true);
-            passwordInput.SetActive(true);
-            usernameText.SetActive(true);
-            passwordText.SetActive(true);
-            loginToggle.SetActive(true);
-            createToggle.SetActive(true);
+            loginPanel.SetActive(true);
         }
         else if (newState == GameStates.MainMenu)
         {
-           // gameRoomButton.SetActive(true);
+            joinGameRoomPanel.SetActive(true);
         }
+        else if (newState == GameStates.WaitingInQueueForOtherPlayers)
+        {
+            waitingPanel.SetActive(true);
+        }
+
         else if (newState == GameStates.Game)
         {
             //playGameButton.SetActive(true);
