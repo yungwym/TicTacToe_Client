@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class SystemManager : MonoBehaviour
 {
+    //Base UI
+    GameObject basePanel;
+
     //Login Panel Variables 
     GameObject loginPanel;
 
@@ -40,8 +43,12 @@ public class SystemManager : MonoBehaviour
 
         foreach (GameObject go in allObjects)
         {
+            //Get Base Ui Elements
+            if (go.name == "BaseUIPanel")
+                basePanel = go;
+
             //Get all LoginPanel Elements
-            if (go.name == "LoginPanel")
+            else if (go.name == "LoginPanel")
                 loginPanel = go;
             else if (go.name == "UserField")
                 usernameInput = go;
@@ -78,7 +85,7 @@ public class SystemManager : MonoBehaviour
             else if (go.name == "NetworkedClient")
                 networkedClient = go;
 
-            else if (go.name == "Gameboard")
+            else if (go.name == "GameBoard")
                 gameboard = go;
 
         }
@@ -147,31 +154,31 @@ public class SystemManager : MonoBehaviour
 
     public void ChangeState(int newState)
     {
+        basePanel.SetActive(false);
         loginPanel.SetActive(false);
         joinGameRoomPanel.SetActive(false);
         waitingPanel.SetActive(false);
-
-        //  gameRoomButton.SetActive(false);
-
-        //playGameButton.SetActive(false);
-
+        gameboard.SetActive(false);
 
         if (newState == GameStates.LoginMenu)
         {
+            basePanel.SetActive(true);
             loginPanel.SetActive(true);
         }
         else if (newState == GameStates.MainMenu)
         {
+            basePanel.SetActive(true);
             joinGameRoomPanel.SetActive(true);
         }
         else if (newState == GameStates.WaitingInQueueForOtherPlayers)
         {
+            basePanel.SetActive(true);
             waitingPanel.SetActive(true);
         }
 
         else if (newState == GameStates.Game)
         {
-            //playGameButton.SetActive(true);
+            gameboard.SetActive(true);
         }
     }
 
