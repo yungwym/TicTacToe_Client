@@ -179,6 +179,8 @@ public static class ClientToServerSignifiers
     public const int JoinQueueForGameRoom = 3;
 
     public const int PlayGame = 4;
+
+    public const int TurnTaken = 5;
 }
 
 public static class ServerToClientSignifiers
@@ -199,6 +201,8 @@ public static class ServerToClientSignifiers
     public const int FirstPlayerSet = 6;
 
     public const int SecondPlayerSet = 7;
+
+    public const int SetOtherPlayersTurn = 8;
 
     public const int OpponentPlayed = 9;
 }

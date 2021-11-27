@@ -139,11 +139,13 @@ public class SystemManager : MonoBehaviour
     }
 
 
+    /*
     public void PlayGameButtonPressed()
     {
         networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.PlayGame + "");
         ChangeState(GameStates.Game);
     }
+    */
 
     public void JoinGameRoomButtonPressed()
     {

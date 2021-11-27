@@ -11,11 +11,21 @@ public class Gameboard : MonoBehaviour
 
     private Sprite gameSprite;
 
+    //Networked Client
+    GameObject networkedClient;
+
 
     // Start is called before the first frame update
     void Start()
     {
-       
+
+        GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+
+        foreach (GameObject go in allObjects)
+        {
+            if (go.name == "NetworkedClient")
+                networkedClient = go;
+        }
     }
 
     // Update is called once per frame
@@ -23,6 +33,20 @@ public class Gameboard : MonoBehaviour
     {
         
     }
+
+
+
+    private void CheckForInput()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Mouse Cicked");
+
+
+            networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.TurnTaken, "");
+        }
+    }
+
 
     private void DetermineTile()
     {
