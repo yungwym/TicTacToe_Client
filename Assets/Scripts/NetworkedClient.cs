@@ -137,14 +137,24 @@ public class NetworkedClient : MonoBehaviour
         {
             gameSystemManager.GetComponent<SystemManager>().ChangeState(GameStates.Game);
 
-            //Setup GameBoard
-            // gameboard.GetComponent<Gameboard>().SetTile
-
-            Debug.Log("Game ID" + id);
-
-
             Debug.Log("Game Started");
+
+            SendMessageToHost(ClientToServerSignifiers.PlayGame + "");
         }
+
+        else if (signifier == ServerToClientSignifiers.FirstPlayerSet)
+        {
+            Debug.Log("First Player");
+            gameboard.GetComponent<Gameboard>().SetTile(1);
+
+        }
+
+        else if (signifier == ServerToClientSignifiers.SecondPlayerSet)
+        {
+            Debug.Log("Second Player");
+            gameboard.GetComponent<Gameboard>().SetTile(2);
+        }
+
         else if (signifier == ServerToClientSignifiers.OpponentPlayed)
         {
             Debug.Log("Opponent Played");
@@ -181,8 +191,15 @@ public static class ServerToClientSignifiers
 
     public const int AccountCreationFailed = 4;
 
-    public const int OpponentPlayed = 5;
+    public const int GameStart = 5;
 
-    public const int GameStart = 6;
+
+    //Addition
+
+    public const int FirstPlayerSet = 6;
+
+    public const int SecondPlayerSet = 7;
+
+    public const int OpponentPlayed = 9;
 }
 

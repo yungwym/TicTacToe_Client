@@ -15,7 +15,7 @@ public class Gameboard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DetermineTile();
+       
     }
 
     // Update is called once per frame
@@ -40,7 +40,15 @@ public class Gameboard : MonoBehaviour
     public void SetTile(int tileSign)
     {
         tileSignifier = tileSign;
-    }
 
+        if (tileSignifier == 1)
+        {
+            Debug.Log("X's");
+        }
+        else
+        {
+            Debug.Log("O's");
+        }
+    }
 
 }

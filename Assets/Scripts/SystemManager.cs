@@ -103,7 +103,17 @@ public class SystemManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+    }
 
+    public void LoginTogglePressed(bool newValue)
+    {
+        createToggle.GetComponent<Toggle>().SetIsOnWithoutNotify(!newValue);
+    }
+
+    public void CreateTogglePressed(bool newValue)
+    {
+        loginToggle.GetComponent<Toggle>().SetIsOnWithoutNotify(!newValue);
     }
 
     public void SubmitButtonPressed()
@@ -129,7 +139,6 @@ public class SystemManager : MonoBehaviour
     }
 
 
-
     public void PlayGameButtonPressed()
     {
         networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.PlayGame + "");
@@ -142,15 +151,7 @@ public class SystemManager : MonoBehaviour
         ChangeState(GameStates.WaitingInQueueForOtherPlayers);
     }
 
-    public void LoginTogglePressed(bool newValue)
-    {
-        createToggle.GetComponent<Toggle>().SetIsOnWithoutNotify(!newValue);
-    }
-
-    public void CreateTogglePressed(bool newValue)
-    {
-        loginToggle.GetComponent<Toggle>().SetIsOnWithoutNotify(!newValue);
-    }
+    
 
     public void ChangeState(int newState)
     {
