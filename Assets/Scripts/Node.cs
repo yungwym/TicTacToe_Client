@@ -31,6 +31,7 @@ public class Node : MonoBehaviour
     {
         if (gameboard.IsPlayersTurn)
         {
+            
             CheckForInput();
         }
     }
@@ -40,10 +41,13 @@ public class Node : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector2 mousePos = Input.mousePosition;
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos = new Vector2(mousePosition.x, mousePosition.y);
 
             if (collider.bounds.Contains(mousePos) && isFull == false)
             {
+                Debug.Log("Place Sprite");
+
                 PlaceSprite();
 
                 gameboard.PlayerHasTakenTurn(nodeID);
@@ -54,6 +58,6 @@ public class Node : MonoBehaviour
 
     private void PlaceSprite()
     {
-        gameboard.PlaceSprite(transform, transform.rotation);
+        spriteRenderer.sprite = gameboard.gameSprite;
     }
 }

@@ -12,7 +12,7 @@ public class Gameboard : MonoBehaviour
     public Sprite xSprite;
     public Sprite oSprite;
 
-    private Sprite gameSprite;
+    public Sprite gameSprite;
 
 
     public bool IsPlayersTurn = false;
@@ -27,7 +27,6 @@ public class Gameboard : MonoBehaviour
         {
             return;
         }
-
         gameBoardInstance = this;
     }
 
@@ -50,27 +49,7 @@ public class Gameboard : MonoBehaviour
         Debug.Log(nodeID);
         networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.TurnTaken + "");
         IsPlayersTurn = false;
-
     }
-
-    public void PlaceSprite(Transform spriteTransform, Quaternion spriteQuaternion)
-    {
-        Instantiate(gameSprite, spriteTransform.position, spriteQuaternion);
-    }
-
-
-    private void DetermineTile()
-    {
-        if (tileSignifier == 1)
-        {
-            gameSprite = xSprite;
-        }
-        else
-        {
-            gameSprite = oSprite;
-        }
-    }
-
 
     public void SetTile(int tileSign)
     {
@@ -78,10 +57,12 @@ public class Gameboard : MonoBehaviour
 
         if (tileSignifier == 1)
         {
+            gameSprite = oSprite;
             Debug.Log("X's");
         }
         else
         {
+            gameSprite = oSprite;
             Debug.Log("O's");
         }
     }
