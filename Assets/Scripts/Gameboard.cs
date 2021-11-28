@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Gameboard : MonoBehaviour
 {
+    public static Gameboard gameBoardInstance;
+
+
     private int tileSignifier;
 
     public Sprite xSprite;
@@ -16,6 +19,17 @@ public class Gameboard : MonoBehaviour
 
     //Networked Client
     GameObject networkedClient;
+
+
+    private void Awake()
+    {
+        if (gameBoardInstance != null)
+        {
+            return;
+        }
+
+        gameBoardInstance = this;
+    }
 
 
     // Start is called before the first frame update

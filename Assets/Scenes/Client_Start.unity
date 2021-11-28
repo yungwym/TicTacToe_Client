@@ -2405,6 +2405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSprite: {fileID: 21300000, guid: 29cd5772078acf64b87d3b228670f45b, type: 3}
   oSprite: {fileID: 21300000, guid: 91161c8a801a20b4d9ed24bef20b2609, type: 3}
+  IsPlayersTurn: 0
 --- !u!1 &1370240305
 GameObject:
   m_ObjectHideFlags: 0
