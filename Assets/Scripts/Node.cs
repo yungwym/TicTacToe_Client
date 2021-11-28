@@ -31,7 +31,6 @@ public class Node : MonoBehaviour
     {
         if (gameboard.IsPlayersTurn)
         {
-            
             CheckForInput();
         }
     }
@@ -49,7 +48,7 @@ public class Node : MonoBehaviour
                 Debug.Log("Place Sprite");
 
                 PlaceSprite();
-
+                isFull = true;
                 gameboard.PlayerHasTakenTurn(nodeID);
             }
         }
@@ -58,6 +57,11 @@ public class Node : MonoBehaviour
 
     private void PlaceSprite()
     {
-        spriteRenderer.sprite = gameboard.gameSprite;
+        spriteRenderer.sprite = gameboard.playerSprite;
+    }
+
+    public void PlaceOpponentSprite()
+    {
+        spriteRenderer.sprite = gameboard.opponentSprite;
     }
 }

@@ -159,6 +159,14 @@ public class NetworkedClient : MonoBehaviour
             gameboard.GetComponent<Gameboard>().IsPlayersTurn = true;
         }
 
+        else if (signifier == ServerToClientSignifiers.OpponentNode)
+        {
+            string node = csv[1];
+
+
+            gameboard.GetComponent<Gameboard>().PlaceOpponentNode(int.Parse(node));
+        }
+
         else if (signifier == ServerToClientSignifiers.OpponentPlayed)
         {
             Debug.Log("Opponent Played");
@@ -208,6 +216,8 @@ public static class ServerToClientSignifiers
 
     public const int PlayersTurn = 8;
 
-    public const int OpponentPlayed = 9;
+    public const int OpponentNode = 9;
+
+    public const int OpponentPlayed = 10;
 }
 

@@ -12,10 +12,12 @@ public class Gameboard : MonoBehaviour
     public Sprite xSprite;
     public Sprite oSprite;
 
-    public Sprite gameSprite;
-
+    public Sprite playerSprite;
+    public Sprite opponentSprite;
 
     public bool IsPlayersTurn = false;
+
+    private Node[] nodes;
 
     //Networked Client
     GameObject networkedClient;
@@ -42,12 +44,15 @@ public class Gameboard : MonoBehaviour
             if (go.name == "NetworkedClient")
                 networkedClient = go;
         }
+
+
+        nodes = FindObjectsOfType<Node>();
     }
   
     public void PlayerHasTakenTurn(int nodeID)
     {
         Debug.Log(nodeID);
-        networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.TurnTaken + "");
+        networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.TurnTaken + "," + nodeID);
         IsPlayersTurn = false;
     }
 
@@ -57,14 +62,22 @@ public class Gameboard : MonoBehaviour
 
         if (tileSignifier == 1)
         {
-            gameSprite = oSprite;
+            playerSprite = xSprite;
             Debug.Log("X's");
         }
         else
         {
-            gameSprite = oSprite;
+            playerSprite = oSprite;
             Debug.Log("O's");
         }
+    }
+
+
+    public void PlaceOpponentNode(int nodeIndex)
+    {
+        Debug.Log(nodeIndex);
+
+        nodes[nodeIndex].PlaceOpponentSprite();
     }
 
 }
