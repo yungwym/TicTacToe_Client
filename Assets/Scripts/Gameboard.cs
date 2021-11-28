@@ -30,29 +30,18 @@ public class Gameboard : MonoBehaviour
                 networkedClient = go;
         }
     }
-
-    // Update is called once per frame
-    void Update()
+  
+    public void PlayerHasTakenTurn(int nodeID)
     {
-        if (IsPlayersTurn)
-        {
-            CheckForInput();
-        }
-       
+        Debug.Log(nodeID);
+        networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.TurnTaken + "");
+        IsPlayersTurn = false;
+
     }
 
-
-
-    private void CheckForInput()
+    public void PlaceSprite(Transform spriteTransform, Quaternion spriteQuaternion)
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Mouse Cicked");
-
-            networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.TurnTaken + "");
-        }
-
-        IsPlayersTurn = false;
+        Instantiate(gameSprite, spriteTransform.position, spriteQuaternion);
     }
 
 
