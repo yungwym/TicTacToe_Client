@@ -11,6 +11,9 @@ public class Gameboard : MonoBehaviour
 
     private Sprite gameSprite;
 
+
+    public bool IsPlayersTurn = false;
+
     //Networked Client
     GameObject networkedClient;
 
@@ -31,7 +34,11 @@ public class Gameboard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (IsPlayersTurn)
+        {
+            CheckForInput();
+        }
+       
     }
 
 
@@ -42,9 +49,10 @@ public class Gameboard : MonoBehaviour
         {
             Debug.Log("Mouse Cicked");
 
-
-            networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.TurnTaken, "");
+            networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.TurnTaken + "");
         }
+
+        IsPlayersTurn = false;
     }
 
 
