@@ -63,11 +63,13 @@ public class Gameboard : MonoBehaviour
         if (tileSignifier == 1)
         {
             playerSprite = xSprite;
+            opponentSprite = oSprite;
             Debug.Log("X's");
         }
         else
         {
             playerSprite = oSprite;
+            opponentSprite = xSprite;
             Debug.Log("O's");
         }
     }
@@ -78,6 +80,7 @@ public class Gameboard : MonoBehaviour
         Debug.Log(nodeIndex);
 
         nodes[nodeIndex].PlaceOpponentSprite();
+        nodes[nodeIndex].isFull = true;
     }
 
 }
