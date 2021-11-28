@@ -21,11 +21,14 @@ public class Node : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameboard = Gameboard.gameBoardInstance;
+        NodeMark = Mark.NONE;
 
+        gameboard = Gameboard.gameBoardInstance;
 
         collider = gameObject.GetComponent<Collider2D>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+
+        Debug.Log(NodeMark);
     }
 
     // Update is called once per frame

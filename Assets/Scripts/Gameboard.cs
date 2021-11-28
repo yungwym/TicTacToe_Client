@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum Mark
 {
+    NONE,
     X,
     O
 }
@@ -48,6 +49,8 @@ public class Gameboard : MonoBehaviour
     void Start()
     {
 
+        PlayerMark = Mark.NONE;
+
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
 
         foreach (GameObject go in allObjects)
@@ -67,12 +70,13 @@ public class Gameboard : MonoBehaviour
         if (hasWon)
         {
             Debug.Log("Player Has Won");
+            networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.PlayerWin + "");
         }
         else
         {
             networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.TurnTaken + "," + nodeID);
-            IsPlayersTurn = false;
         }
+        IsPlayersTurn = false;
     }
 
     public void SetTile(int tileSign)

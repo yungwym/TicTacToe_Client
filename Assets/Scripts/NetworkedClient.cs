@@ -167,6 +167,17 @@ public class NetworkedClient : MonoBehaviour
             gameboard.GetComponent<Gameboard>().PlaceOpponentNode(int.Parse(node));
         }
 
+        else if (signifier == ServerToClientSignifiers.WinConditionForPlayer)
+        {
+            gameSystemManager.GetComponent<SystemManager>().ChangeState(GameStates.GameWin);
+        }
+
+        else if (signifier == ServerToClientSignifiers.LoseConditionForPlayer)
+        {
+            gameSystemManager.GetComponent<SystemManager>().ChangeState(GameStates.GameLose);
+        }
+
+
         else if (signifier == ServerToClientSignifiers.OpponentPlayed)
         {
             Debug.Log("Opponent Played");
@@ -193,6 +204,8 @@ public static class ClientToServerSignifiers
     public const int PlayGame = 4;
 
     public const int TurnTaken = 5;
+
+    public const int PlayerWin = 6;
 }
 
 public static class ServerToClientSignifiers
@@ -218,6 +231,10 @@ public static class ServerToClientSignifiers
 
     public const int OpponentNode = 9;
 
-    public const int OpponentPlayed = 10;
+    public const int WinConditionForPlayer = 10;
+
+    public const int LoseConditionForPlayer = 11;
+
+    public const int OpponentPlayed = 12;
 }
 

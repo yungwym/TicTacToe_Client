@@ -35,6 +35,10 @@ public class SystemManager : MonoBehaviour
     //Gameboard
     GameObject gameboard;
 
+    //End ConditionPanel
+    GameObject winConditionPanel;
+    GameObject loseConditionPanel;
+
 
     // Start is called before the first frame update
     void Start()
@@ -88,23 +92,31 @@ public class SystemManager : MonoBehaviour
             else if (go.name == "GameBoard")
                 gameboard = go;
 
+
+            //End Condition Panels
+            else if (go.name == "WinConditionPanel")
+            {
+                winConditionPanel = go;
+            }
+
+            else if (go.name == "LoseConditionPanel")
+            {
+                loseConditionPanel = go;
+            }
+
+
+
         }
 
         submitButton.GetComponent<Button>().onClick.AddListener(SubmitButtonPressed);
         joinGameRoomButton.GetComponent<Button>().onClick.AddListener(JoinGameRoomButtonPressed);
-       // playGameButton.GetComponent<Button>().onClick.AddListener(PlayGameButtonPressed);
-
+      
         loginToggle.GetComponent<Toggle>().onValueChanged.AddListener(LoginTogglePressed);
         createToggle.GetComponent<Toggle>().onValueChanged.AddListener(CreateTogglePressed);
 
         ChangeState(GameStates.LoginMenu);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void LoginTogglePressed(bool newValue)
     {
@@ -138,15 +150,6 @@ public class SystemManager : MonoBehaviour
         Debug.Log(msg);
     }
 
-
-    /*
-    public void PlayGameButtonPressed()
-    {
-        networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.PlayGame + "");
-        ChangeState(GameStates.Game);
-    }
-    */
-
     public void JoinGameRoomButtonPressed()
     {
         networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.JoinQueueForGameRoom + "");
@@ -154,7 +157,6 @@ public class SystemManager : MonoBehaviour
     }
 
     
-
     public void ChangeState(int newState)
     {
         basePanel.SetActive(false);
@@ -162,6 +164,8 @@ public class SystemManager : MonoBehaviour
         joinGameRoomPanel.SetActive(false);
         waitingPanel.SetActive(false);
         gameboard.SetActive(false);
+        winConditionPanel.SetActive(false);
+        loseConditionPanel.SetActive(false);
 
         if (newState == GameStates.LoginMenu)
         {
@@ -183,6 +187,16 @@ public class SystemManager : MonoBehaviour
         {
             gameboard.SetActive(true);
         }
+
+        else if (newState == GameStates.GameWin)
+        {
+            winConditionPanel.SetActive(true);
+        }
+
+        else if (newState == GameStates.GameLose)
+        {
+            loseConditionPanel.SetActive(true);
+        }
     }
 
 }
@@ -198,5 +212,9 @@ public static class GameStates
     public const int WaitingInQueueForOtherPlayers = 3;
 
     public const int Game = 4;
+
+    public const int GameWin = 5;
+
+    public const int GameLose = 6;
 
 }
