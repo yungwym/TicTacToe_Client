@@ -17,7 +17,7 @@ public class Gameboard : MonoBehaviour
 
     public bool IsPlayersTurn = false;
 
-    private Node[] nodes;
+    [SerializeField] private Node[] nodes;
 
     //Networked Client
     GameObject networkedClient;
@@ -46,7 +46,7 @@ public class Gameboard : MonoBehaviour
         }
 
 
-        nodes = FindObjectsOfType<Node>();
+        //nodes = FindObjectsOfType<Node>();
     }
   
     public void PlayerHasTakenTurn(int nodeID)
@@ -73,8 +73,6 @@ public class Gameboard : MonoBehaviour
             Debug.Log("O's");
         }
     }
-
-
     public void PlaceOpponentNode(int nodeIndex)
     {
         Debug.Log(nodeIndex);
