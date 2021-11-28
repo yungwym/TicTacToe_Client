@@ -8,6 +8,8 @@ public class Node : MonoBehaviour
    
     [SerializeField] private int nodeID;
 
+    public Mark NodeMark;
+
     public bool isFull = false;
 
     private Collider2D collider;
@@ -57,6 +59,7 @@ public class Node : MonoBehaviour
 
     private void PlaceSprite()
     {
+        NodeMark = gameboard.PlayerMark;
         spriteRenderer.sprite = gameboard.playerSprite;
     }
 

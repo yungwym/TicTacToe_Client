@@ -2,12 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Mark
+{
+    X,
+    O
+}
+
+
+
+
 public class Gameboard : MonoBehaviour
 {
     public static Gameboard gameBoardInstance;
 
 
     private int tileSignifier;
+
+    public Mark PlayerMark;
 
     public Sprite xSprite;
     public Sprite oSprite;
@@ -51,9 +62,17 @@ public class Gameboard : MonoBehaviour
   
     public void PlayerHasTakenTurn(int nodeID)
     {
-        Debug.Log(nodeID);
-        networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.TurnTaken + "," + nodeID);
-        IsPlayersTurn = false;
+        bool hasWon = CheckForWin();
+
+        if (hasWon)
+        {
+            Debug.Log("Player Has Won");
+        }
+        else
+        {
+            networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.TurnTaken + "," + nodeID);
+            IsPlayersTurn = false;
+        }
     }
 
     public void SetTile(int tileSign)
@@ -62,15 +81,15 @@ public class Gameboard : MonoBehaviour
 
         if (tileSignifier == 1)
         {
+            PlayerMark = Mark.X;
             playerSprite = xSprite;
             opponentSprite = oSprite;
-            Debug.Log("X's");
         }
         else
         {
+            PlayerMark = Mark.O;
             playerSprite = oSprite;
             opponentSprite = xSprite;
-            Debug.Log("O's");
         }
     }
     public void PlaceOpponentNode(int nodeIndex)
@@ -79,6 +98,23 @@ public class Gameboard : MonoBehaviour
 
         nodes[nodeIndex].PlaceOpponentSprite();
         nodes[nodeIndex].isFull = true;
+    }
+
+    public bool CheckForWin()
+    {
+        return
+        AreNodesMatched(0, 1, 2) || AreNodesMatched(3, 4, 5) || AreNodesMatched(6, 7, 8) ||
+        AreNodesMatched(0, 3, 6) || AreNodesMatched(1, 4, 7) || AreNodesMatched(2, 5, 8) ||
+        AreNodesMatched(0, 4, 8) || AreNodesMatched(2, 4, 6); 
+
+    }
+
+    private bool AreNodesMatched(int i, int j, int k)
+    {
+        Mark m = PlayerMark;
+
+        bool isMatched = (nodes[i].NodeMark == m && nodes[j].NodeMark == m && nodes[k].NodeMark == m);
+        return isMatched;
     }
 
 }
