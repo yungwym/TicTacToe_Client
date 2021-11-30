@@ -91,7 +91,7 @@ public class NetworkedClient : MonoBehaviour
             hostID = NetworkTransport.AddHost(topology, 0);
             Debug.Log("Socket open.  Host ID = " + hostID);
 
-            connectionID = NetworkTransport.Connect(hostID, "192.168.86.128", socketPort, 0, out error); // server is local on network
+            connectionID = NetworkTransport.Connect(hostID, "192.168.86.138", socketPort, 0, out error); // server is local on network
 
             if (error == 0)
             {
@@ -177,12 +177,10 @@ public class NetworkedClient : MonoBehaviour
             gameSystemManager.GetComponent<SystemManager>().ChangeState(GameStates.GameLose);
         }
 
-
         else if (signifier == ServerToClientSignifiers.OpponentPlayed)
         {
             Debug.Log("Opponent Played");
         }
-        
     }
 
     public bool IsConnected()
@@ -206,6 +204,8 @@ public static class ClientToServerSignifiers
     public const int TurnTaken = 5;
 
     public const int PlayerWin = 6;
+
+    public const int PlayerMessage = 7;
 }
 
 public static class ServerToClientSignifiers
@@ -220,9 +220,7 @@ public static class ServerToClientSignifiers
 
     public const int GameStart = 5;
 
-
     //Addition
-
     public const int FirstPlayerSet = 6;
 
     public const int SecondPlayerSet = 7;

@@ -39,6 +39,18 @@ public class SystemManager : MonoBehaviour
     GameObject winConditionPanel;
     GameObject loseConditionPanel;
 
+    //Player Msg Panel and UI
+    GameObject playerMsgPanel;
+    GameObject prefixedMsg1;
+    GameObject prefixedMsg2;
+    GameObject prefixedMsg3;
+    GameObject prefixedMsg4;
+
+    GameObject customMsgInputField;
+    GameObject customMsgSendButton;
+
+    //Opponent Msg Panel and UI
+
 
     // Start is called before the first frame update
     void Start()
@@ -92,21 +104,40 @@ public class SystemManager : MonoBehaviour
             else if (go.name == "GameBoard")
                 gameboard = go;
 
-
             //End Condition Panels
-            else if (go.name == "WinConditionPanel")
-            {
+            else if (go.name == "WinPanel")
                 winConditionPanel = go;
-            }
 
-            else if (go.name == "LoseConditionPanel")
-            {
+            else if (go.name == "LosePanel")
                 loseConditionPanel = go;
-            }
 
+            //Msg Panel
+            else if (go.name == "PlayerMsgPanel")
+                playerMsgPanel = go;
 
+            else if (go.name == "PrefixedMsg1")
+                prefixedMsg1 = go;
 
+            else if (go.name == "PrefixedMsg2")
+                prefixedMsg2 = go;
+
+            else if (go.name == "PrefixedMsg3")
+                prefixedMsg3 = go;
+
+            else if (go.name == "PrefixedMsg4")
+                prefixedMsg4 = go;
+
+            else if (go.name == "CustomMsgInputField")
+                customMsgInputField = go;
+
+            else if (go.name == "SendButton")
+                customMsgSendButton = go;
         }
+
+        prefixedMsg1.GetComponent<Button>().onClick.AddListener(SendPrefixed1);
+        prefixedMsg2.GetComponent<Button>().onClick.AddListener(SendPrefixed2);
+        prefixedMsg3.GetComponent<Button>().onClick.AddListener(SendPrefixed3);
+        prefixedMsg4.GetComponent<Button>().onClick.AddListener(SendPrefixed4);
 
         submitButton.GetComponent<Button>().onClick.AddListener(SubmitButtonPressed);
         joinGameRoomButton.GetComponent<Button>().onClick.AddListener(JoinGameRoomButtonPressed);
@@ -126,6 +157,36 @@ public class SystemManager : MonoBehaviour
     public void CreateTogglePressed(bool newValue)
     {
         loginToggle.GetComponent<Toggle>().SetIsOnWithoutNotify(!newValue);
+    }
+
+    public void SendPrefixed1()
+    {
+        string buttonTxt = prefixedMsg1.GetComponent<Text>().text;
+        SendMessageToOpponent(buttonTxt);
+    }
+
+    public void SendPrefixed2()
+    {
+        string buttonTxt = prefixedMsg2.GetComponent<Text>().text;
+        SendMessageToOpponent(buttonTxt);
+    }
+
+    public void SendPrefixed3()
+    {
+        string buttonTxt = prefixedMsg3.GetComponent<Text>().text;
+        SendMessageToOpponent(buttonTxt);
+    }
+
+    public void SendPrefixed4()
+    {
+        string buttonTxt = prefixedMsg3.GetComponent<Text>().text;
+        SendMessageToOpponent(buttonTxt);
+    }
+
+    public void SendMessageToOpponent(string msg)
+    {
+        networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.PlayerMessage + "," + msg);
+        Debug.Log(msg);
     }
 
     public void SubmitButtonPressed()
