@@ -319,6 +319,12 @@ public class SystemManager : MonoBehaviour
             playerMsgPanel.SetActive(true);
             opponentMsgPanel.SetActive(true);
             msgLogPanel.SetActive(true);
+
+            playerMsgBlock.SetActive(true);
+            playerMsgText.SetActive(true);
+
+            opponentMsgBlock.SetActive(true);
+            opponentMsgText.SetActive(true);
         }
 
         else if (newState == GameStates.GameWin)
@@ -329,6 +335,19 @@ public class SystemManager : MonoBehaviour
         else if (newState == GameStates.GameLose)
         {
             loseConditionPanel.SetActive(true);
+        }
+
+        else if (newState == GameStates.Observer)
+        {
+            msgLogPanel.SetActive(true);
+            gameboard.SetActive(true);
+            gameboard.GetComponent<Gameboard>().SetAsObserver();
+
+            playerMsgBlock.SetActive(true);
+            playerMsgText.SetActive(true);
+
+            opponentMsgBlock.SetActive(true);
+            opponentMsgText.SetActive(true);
         }
     }
 
@@ -349,5 +368,7 @@ public static class GameStates
     public const int GameWin = 5;
 
     public const int GameLose = 6;
+
+    public const int Observer = 7;
 
 }

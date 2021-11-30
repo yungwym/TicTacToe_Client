@@ -11,6 +11,7 @@ public class Node : MonoBehaviour
     public Mark NodeMark;
 
     public bool isFull = false;
+    public bool isObserver = false;
 
     private Collider2D collider;
     private SpriteRenderer spriteRenderer;
@@ -25,16 +26,15 @@ public class Node : MonoBehaviour
 
         gameboard = Gameboard.gameBoardInstance;
 
+
         collider = gameObject.GetComponent<Collider2D>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-
-        Debug.Log(NodeMark);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (gameboard.IsPlayersTurn)
+        if (gameboard.IsPlayersTurn && isObserver == false)
         {
             CheckForInput();
         }
@@ -50,9 +50,26 @@ public class Node : MonoBehaviour
 
             if (collider.bounds.Contains(mousePos) && isFull == false)
             {
+
+                switch (gameboard.PlayerMark)
+                {
+                    case Mark.NONE:
+                        break;
+                    case Mark.X:
+                        PlaceXSprite();
+                        break;
+                    case Mark.O:
+                        PlaceOSprite();
+                        break;
+                    default:
+                        break;
+                }
+
+
+
                 Debug.Log("Place Sprite");
 
-                PlaceSprite();
+              //  PlaceSprite();
                 isFull = true;
                 gameboard.PlayerHasTakenTurn(nodeID);
             }
@@ -60,7 +77,8 @@ public class Node : MonoBehaviour
     }
 
 
-    private void PlaceSprite()
+    /*
+   / public void PlaceSprite()
     {
         NodeMark = gameboard.PlayerMark;
         spriteRenderer.sprite = gameboard.playerSprite;
@@ -69,5 +87,21 @@ public class Node : MonoBehaviour
     public void PlaceOpponentSprite()
     {
         spriteRenderer.sprite = gameboard.opponentSprite;
+    }
+*/
+
+
+
+
+    public void PlaceXSprite()
+    {
+        NodeMark = Mark.X;
+        spriteRenderer.sprite = gameboard.xSprite;
+    }
+
+    public void PlaceOSprite()
+    {
+        NodeMark = Mark.O;
+        spriteRenderer.sprite = gameboard.oSprite;
     }
 }

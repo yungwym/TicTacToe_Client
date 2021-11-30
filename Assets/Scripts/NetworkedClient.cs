@@ -181,9 +181,8 @@ public class NetworkedClient : MonoBehaviour
         {
             string playerMsg = csv[1];
 
-            gameSystemManager.GetComponent<SystemManager>().DisplayPlayerMessage(playerMsg);
+            StartCoroutine(gameSystemManager.GetComponent<SystemManager>().DisplayPlayerMessage(playerMsg));
 
-            //gameSystemManager.GetComponent<SystemManager>().ChangeState(GameStates.GameLose);
             Debug.Log("Player Message Recieved" + playerMsg);
         }
 
@@ -192,7 +191,7 @@ public class NetworkedClient : MonoBehaviour
         {
             string opponentMsg = csv[1];
 
-            gameSystemManager.GetComponent<SystemManager>().DisplayOpponentMessage(opponentMsg);
+            StartCoroutine(gameSystemManager.GetComponent<SystemManager>().DisplayOpponentMessage(opponentMsg));
 
             Debug.Log("Opponent Msg Recieved" + opponentMsg);
         }
@@ -201,6 +200,23 @@ public class NetworkedClient : MonoBehaviour
         {
             Debug.Log("Opponent Played");
         }
+
+
+        else if (signifier == ServerToClientSignifiers.JoinAsObserver)
+        {
+            Debug.Log("JoiningAsObserver");
+
+            gameSystemManager.GetComponent<SystemManager>().ChangeState(GameStates.Observer);
+        }
+
+        else if (signifier == ServerToClientSignifiers.UpdateObservers)
+        {
+            string nodeId = csv[1];
+            string nodeSig = csv[2];
+
+            gameboard.GetComponent<Gameboard>().PlaceNodeAsObserver(int.Parse(nodeId), int.Parse(nodeSig));
+        }
+
     }
 
     public bool IsConnected()
@@ -258,5 +274,9 @@ public static class ServerToClientSignifiers
     public const int DisplayOpponentMessage = 13;
 
     public const int OpponentPlayed = 14;
+
+    public const int JoinAsObserver = 15;
+
+    public const int UpdateObservers = 16;
 }
 
