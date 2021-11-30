@@ -181,7 +181,7 @@ public class NetworkedClient : MonoBehaviour
         {
             string playerMsg = csv[1];
 
-
+            gameSystemManager.GetComponent<SystemManager>().DisplayPlayerMessage(playerMsg);
 
             //gameSystemManager.GetComponent<SystemManager>().ChangeState(GameStates.GameLose);
             Debug.Log("Player Message Recieved" + playerMsg);
@@ -191,6 +191,8 @@ public class NetworkedClient : MonoBehaviour
         else if (signifier == ServerToClientSignifiers.DisplayOpponentMessage)
         {
             string opponentMsg = csv[1];
+
+            gameSystemManager.GetComponent<SystemManager>().DisplayOpponentMessage(opponentMsg);
 
             Debug.Log("Opponent Msg Recieved" + opponentMsg);
         }

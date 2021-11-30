@@ -50,7 +50,14 @@ public class SystemManager : MonoBehaviour
     GameObject customMsgSendButton;
 
     //Opponent Msg Panel and UI
+    GameObject opponentMsgPanel;
+    GameObject msgLogPanel;
 
+    GameObject playerMsgBlock;
+    GameObject opponentMsgBlock;
+
+    GameObject playerMsgText;
+    GameObject opponentMsgText;
 
     // Start is called before the first frame update
     void Start()
@@ -132,6 +139,27 @@ public class SystemManager : MonoBehaviour
 
             else if (go.name == "SendButton")
                 customMsgSendButton = go;
+
+            //Message Log
+            else if (go.name == "OpponentMsgPanel")
+                opponentMsgPanel = go;
+
+            //Opponent Panel
+            else if (go.name == "MsgPanel")
+                msgLogPanel = go;
+
+            else if (go.name == "PlayerMsgText")
+                playerMsgText = go;
+
+            else if (go.name == "OpponentMsgText")
+                opponentMsgText = go;
+
+            else if (go.name == "PlayerMessageBlock")
+                playerMsgBlock = go;
+
+            else if (go.name == "OpponentMessageBlock")
+                opponentMsgBlock = go;
+
         }
 
         prefixedMsg1.GetComponent<Button>().onClick.AddListener(SendPrefixed1);
@@ -197,6 +225,36 @@ public class SystemManager : MonoBehaviour
         Debug.Log(msg);
     }
 
+    public IEnumerator DisplayPlayerMessage(string msg)
+    {
+        playerMsgBlock.SetActive(true);
+        playerMsgText.SetActive(true);
+
+        playerMsgText.GetComponent<Text>().text = msg;
+
+        yield return new WaitForSeconds(5.0f);
+
+        playerMsgBlock.SetActive(false);
+        playerMsgText.SetActive(false);
+    }
+
+    public IEnumerator DisplayOpponentMessage(string msg)
+    {
+        opponentMsgBlock.SetActive(true);
+        opponentMsgText.SetActive(true);
+
+        opponentMsgText.GetComponent<Text>().text = msg;
+
+        yield return new WaitForSeconds(5.0f);
+
+        opponentMsgBlock.SetActive(false);
+        opponentMsgText.SetActive(false);
+    }
+
+
+
+
+
     public void SubmitButtonPressed()
     {
         //Send Login Info to Server
@@ -236,6 +294,8 @@ public class SystemManager : MonoBehaviour
         winConditionPanel.SetActive(false);
         loseConditionPanel.SetActive(false);
         playerMsgPanel.SetActive(false);
+        opponentMsgPanel.SetActive(false);
+        msgLogPanel.SetActive(false);
 
         if (newState == GameStates.LoginMenu)
         {
@@ -257,6 +317,8 @@ public class SystemManager : MonoBehaviour
         {
             gameboard.SetActive(true);
             playerMsgPanel.SetActive(true);
+            opponentMsgPanel.SetActive(true);
+            msgLogPanel.SetActive(true);
         }
 
         else if (newState == GameStates.GameWin)
