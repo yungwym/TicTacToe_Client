@@ -115,16 +115,16 @@ public class SystemManager : MonoBehaviour
             else if (go.name == "PlayerMsgPanel")
                 playerMsgPanel = go;
 
-            else if (go.name == "PrefixedMsg1")
+            else if (go.name == "Prefixed1")
                 prefixedMsg1 = go;
 
-            else if (go.name == "PrefixedMsg2")
+            else if (go.name == "Prefixed2")
                 prefixedMsg2 = go;
 
-            else if (go.name == "PrefixedMsg3")
+            else if (go.name == "Prefixed3")
                 prefixedMsg3 = go;
 
-            else if (go.name == "PrefixedMsg4")
+            else if (go.name == "Prefixed4")
                 prefixedMsg4 = go;
 
             else if (go.name == "CustomMsgInputField")
@@ -138,6 +138,7 @@ public class SystemManager : MonoBehaviour
         prefixedMsg2.GetComponent<Button>().onClick.AddListener(SendPrefixed2);
         prefixedMsg3.GetComponent<Button>().onClick.AddListener(SendPrefixed3);
         prefixedMsg4.GetComponent<Button>().onClick.AddListener(SendPrefixed4);
+        customMsgSendButton.GetComponent<Button>().onClick.AddListener(SendCustomMsg);
 
         submitButton.GetComponent<Button>().onClick.AddListener(SubmitButtonPressed);
         joinGameRoomButton.GetComponent<Button>().onClick.AddListener(JoinGameRoomButtonPressed);
@@ -161,26 +162,33 @@ public class SystemManager : MonoBehaviour
 
     public void SendPrefixed1()
     {
-        string buttonTxt = prefixedMsg1.GetComponent<Text>().text;
+        string buttonTxt = "Hello";
         SendMessageToOpponent(buttonTxt);
     }
 
     public void SendPrefixed2()
     {
-        string buttonTxt = prefixedMsg2.GetComponent<Text>().text;
+        string buttonTxt = "Nice Move!";
         SendMessageToOpponent(buttonTxt);
     }
 
     public void SendPrefixed3()
     {
-        string buttonTxt = prefixedMsg3.GetComponent<Text>().text;
+        string buttonTxt = "Good Game";
         SendMessageToOpponent(buttonTxt);
     }
 
     public void SendPrefixed4()
     {
-        string buttonTxt = prefixedMsg3.GetComponent<Text>().text;
+        string buttonTxt = "No Way!";
         SendMessageToOpponent(buttonTxt);
+    }
+
+    public void SendCustomMsg()
+    {
+        string playerMsg = customMsgInputField.GetComponent<InputField>().text;
+
+        SendMessageToOpponent(playerMsg);
     }
 
     public void SendMessageToOpponent(string msg)
@@ -227,6 +235,7 @@ public class SystemManager : MonoBehaviour
         gameboard.SetActive(false);
         winConditionPanel.SetActive(false);
         loseConditionPanel.SetActive(false);
+        playerMsgPanel.SetActive(false);
 
         if (newState == GameStates.LoginMenu)
         {
@@ -247,6 +256,7 @@ public class SystemManager : MonoBehaviour
         else if (newState == GameStates.Game)
         {
             gameboard.SetActive(true);
+            playerMsgPanel.SetActive(true);
         }
 
         else if (newState == GameStates.GameWin)

@@ -177,6 +177,24 @@ public class NetworkedClient : MonoBehaviour
             gameSystemManager.GetComponent<SystemManager>().ChangeState(GameStates.GameLose);
         }
 
+        else if (signifier == ServerToClientSignifiers.DisplayPlayerMessage)
+        {
+            string playerMsg = csv[1];
+
+
+
+            //gameSystemManager.GetComponent<SystemManager>().ChangeState(GameStates.GameLose);
+            Debug.Log("Player Message Recieved" + playerMsg);
+        }
+
+
+        else if (signifier == ServerToClientSignifiers.DisplayOpponentMessage)
+        {
+            string opponentMsg = csv[1];
+
+            Debug.Log("Opponent Msg Recieved" + opponentMsg);
+        }
+
         else if (signifier == ServerToClientSignifiers.OpponentPlayed)
         {
             Debug.Log("Opponent Played");
@@ -233,6 +251,10 @@ public static class ServerToClientSignifiers
 
     public const int LoseConditionForPlayer = 11;
 
-    public const int OpponentPlayed = 12;
+    public const int DisplayPlayerMessage = 12;
+
+    public const int DisplayOpponentMessage = 13;
+
+    public const int OpponentPlayed = 14;
 }
 
