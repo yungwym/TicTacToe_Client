@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 
 public class NetworkedClient : MonoBehaviour
 {
-
     int connectionID;
     int maxConnections = 1000;
     int reliableChannelID;
@@ -23,19 +22,14 @@ public class NetworkedClient : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
 
         foreach (GameObject go in allObjects)
         {
             if (go.GetComponent<SystemManager>() != null)
                 gameSystemManager = go;
-
         }
-
-        
         Connect();
-
     }
 
     // Update is called once per frame
@@ -98,7 +92,6 @@ public class NetworkedClient : MonoBehaviour
                 isConnected = true;
 
                 Debug.Log("Connected, id = " + connectionID);
-
             }
         }
     }
@@ -144,7 +137,6 @@ public class NetworkedClient : MonoBehaviour
         {
             Debug.Log("First Player");
             gameboard.GetComponent<Gameboard>().SetTile(1);
-
         }
 
         else if (signifier == ServerToClientSignifiers.SecondPlayerSet)
@@ -152,7 +144,6 @@ public class NetworkedClient : MonoBehaviour
             Debug.Log("Second Player");
             gameboard.GetComponent<Gameboard>().SetTile(2);
         }
-
 
         else if (signifier == ServerToClientSignifiers.PlayersTurn)
         {
@@ -162,7 +153,6 @@ public class NetworkedClient : MonoBehaviour
         else if (signifier == ServerToClientSignifiers.OpponentNode)
         {
             string node = csv[1];
-
 
             gameboard.GetComponent<Gameboard>().PlaceOpponentNode(int.Parse(node));
         }
@@ -186,7 +176,6 @@ public class NetworkedClient : MonoBehaviour
             Debug.Log("Player Message Recieved" + playerMsg);
         }
 
-
         else if (signifier == ServerToClientSignifiers.DisplayOpponentMessage)
         {
             string opponentMsg = csv[1];
@@ -200,7 +189,6 @@ public class NetworkedClient : MonoBehaviour
         {
             Debug.Log("Opponent Played");
         }
-
 
         else if (signifier == ServerToClientSignifiers.JoinAsObserver)
         {
@@ -217,6 +205,15 @@ public class NetworkedClient : MonoBehaviour
             gameboard.GetComponent<Gameboard>().PlaceNodeAsObserver(int.Parse(nodeId), int.Parse(nodeSig));
         }
 
+        else if (signifier == ServerToClientSignifiers.ReplayMove)
+        {
+
+            string playerID = csv[1];
+            string nodeID = csv[2];
+            string nodeSig = csv[3];
+
+            gameSystemManager.GetComponent<SystemManager>().DisplayReplayBlock(playerID, nodeID, nodeSig);
+        }
     }
 
     public bool IsConnected()
@@ -224,7 +221,6 @@ public class NetworkedClient : MonoBehaviour
         return isConnected;
     }
 }
-
 
 
 public static class ClientToServerSignifiers
@@ -242,6 +238,8 @@ public static class ClientToServerSignifiers
     public const int PlayerWin = 6;
 
     public const int PlayerMessage = 7;
+
+    public const int RequestReplayMove = 8;
 }
 
 public static class ServerToClientSignifiers
@@ -278,5 +276,7 @@ public static class ServerToClientSignifiers
     public const int JoinAsObserver = 15;
 
     public const int UpdateObservers = 16;
+
+    public const int ReplayMove = 17;
 }
 

@@ -10,8 +10,6 @@ public enum Mark
 }
 
 
-
-
 public class Gameboard : MonoBehaviour
 {
     public static Gameboard gameBoardInstance;
@@ -91,23 +89,23 @@ public class Gameboard : MonoBehaviour
         }
     }
 
-        public void PlaceOpponentNode(int nodeIndex)
+    public void PlaceOpponentNode(int nodeIndex)
+    {
+        switch (OpponentMark)
         {
-            switch (OpponentMark)
-            {
-                case Mark.NONE:
-                    break;
-                case Mark.X:
-                    nodes[nodeIndex].PlaceXSprite();
-                    break;
-                case Mark.O:
-                    nodes[nodeIndex].PlaceOSprite();
-                    break;
-                default:
-                    break;
-            }
-            nodes[nodeIndex].isFull = true;
+            case Mark.NONE:
+                break;
+            case Mark.X:
+                nodes[nodeIndex].PlaceXSprite();
+                break;
+            case Mark.O:
+                nodes[nodeIndex].PlaceOSprite();
+                break;
+            default:
+                break;
         }
+            nodes[nodeIndex].isFull = true;
+    }
 
         public void PlaceNodeAsObserver(int nodeIndex, int spriteSignifier)
         {

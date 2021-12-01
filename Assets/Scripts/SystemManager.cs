@@ -59,6 +59,13 @@ public class SystemManager : MonoBehaviour
     GameObject playerMsgText;
     GameObject opponentMsgText;
 
+    //Replay
+    GameObject replayPanel;
+    GameObject replayButton;
+    GameObject replayBlock;
+    GameObject replayText;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -160,6 +167,20 @@ public class SystemManager : MonoBehaviour
             else if (go.name == "OpponentMessageBlock")
                 opponentMsgBlock = go;
 
+            //ReplayPanel 
+
+            else if (go.name == "ReplayPanel")
+                replayPanel = go;
+
+            else if (go.name == "ReplayButton")
+                replayButton = go;
+
+            else if (go.name == "ReplayBlock")
+                replayBlock = go;
+
+            else if (go.name == "ReplayText")
+                replayText = go;
+
         }
 
         prefixedMsg1.GetComponent<Button>().onClick.AddListener(SendPrefixed1);
@@ -168,6 +189,8 @@ public class SystemManager : MonoBehaviour
         prefixedMsg4.GetComponent<Button>().onClick.AddListener(SendPrefixed4);
         customMsgSendButton.GetComponent<Button>().onClick.AddListener(SendCustomMsg);
 
+        replayButton.GetComponent<Button>().onClick.AddListener(ReplayButtonPressed);
+
         submitButton.GetComponent<Button>().onClick.AddListener(SubmitButtonPressed);
         joinGameRoomButton.GetComponent<Button>().onClick.AddListener(JoinGameRoomButtonPressed);
       
@@ -175,6 +198,31 @@ public class SystemManager : MonoBehaviour
         createToggle.GetComponent<Toggle>().onValueChanged.AddListener(CreateTogglePressed);
 
         ChangeState(GameStates.LoginMenu);
+    }
+
+    public void ReplayButtonPressed()
+    {
+        networkedClient.GetComponent<NetworkedClient>().SendMessageToHost(ClientToServerSignifiers.RequestReplayMove + "");
+    }
+
+    public void DisplayReplayBlock(string id, string nodeId, string nodeSig)
+    {
+        int nodeSigInt = int.Parse(nodeSig);
+
+        string xo;
+
+        if (nodeSigInt == 1)
+        {
+            xo = "X";
+        } else 
+        {
+            xo = "O";
+        }
+
+        string replayMsg = "Player:" + id + " placed " + xo + " at space " + nodeId;
+        Debug.Log(replayMsg);
+
+        replayText.GetComponent<Text>().text = replayMsg;
     }
 
 
@@ -296,6 +344,7 @@ public class SystemManager : MonoBehaviour
         playerMsgPanel.SetActive(false);
         opponentMsgPanel.SetActive(false);
         msgLogPanel.SetActive(false);
+        replayPanel.SetActive(false);
 
         if (newState == GameStates.LoginMenu)
         {
@@ -330,11 +379,21 @@ public class SystemManager : MonoBehaviour
         else if (newState == GameStates.GameWin)
         {
             winConditionPanel.SetActive(true);
+
+            replayPanel.SetActive(true);
+            replayButton.SetActive(true);
+            replayBlock.SetActive(true);
+            replayText.SetActive(true);
         }
 
         else if (newState == GameStates.GameLose)
         {
             loseConditionPanel.SetActive(true);
+
+            replayPanel.SetActive(true);
+            replayButton.SetActive(true);
+            replayBlock.SetActive(true);
+            replayText.SetActive(true);
         }
 
         else if (newState == GameStates.Observer)
